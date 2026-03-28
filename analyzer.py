@@ -86,6 +86,8 @@ def main():
     print("aggregating results")
 
     print("\nCharacter Class Breakdown:")
+    has_space = df['password'].apply(lambda pw: ' ' in pw).mean() * 100
+    print(f"Contains spaces (passphrase-style): {has_space:.1f}%")  
     print(f"Has uppercase: {df['password'].apply(lambda pw: bool(re.search(r'[A-Z]', pw))).mean() * 100:.1f}%")
     print(f"Has digit: {df['password'].apply(lambda pw: bool(re.search(r'\d', pw))).mean() * 100:.1f}%")
     print(f"Has symbol: {df['password'].apply(lambda pw: bool(re.search(r'[^a-zA-Z0-9]', pw))).mean() * 100:.1f}%")
