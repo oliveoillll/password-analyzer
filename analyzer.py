@@ -85,12 +85,18 @@ def main():
 
     print("aggregating results")
 
+    print("\nCharacter Class Breakdown:")
+    print(f"Has uppercase: {df['password'].apply(lambda pw: bool(re.search(r'[A-Z]', pw))).mean() * 100:.1f}%")
+    print(f"Has digit: {df['password'].apply(lambda pw: bool(re.search(r'\d', pw))).mean() * 100:.1f}%")
+    print(f"Has symbol: {df['password'].apply(lambda pw: bool(re.search(r'[^a-zA-Z0-9]', pw))).mean() * 100:.1f}%")
+    print(f"8+ chars: {df['password'].apply(lambda pw: len(pw) >= 8).mean() * 100:.1f}%")
+
     # calculate compliance rates and distributions
     nist_compliance_rate = df['meets_nist_length'].mean() * 100 
     legacy_compliance_rate = df['legacy_compliant'].mean() * 100
     blocklist_rate = df['in_blocklist'].mean() * 100
     
-    top_templates = df['template'].value_counts().head(10) # most common templates, e.g. 'Ullllllld' for 'Password1'
+    top_templates = df['template'].value_counts().head(10) # most common templates, e.g. 'Ul+d' for 'Password1'
 
     def classify_crack_time(seconds):
         if seconds < 60:
