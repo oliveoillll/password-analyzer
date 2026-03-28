@@ -6,4 +6,5 @@ setup:
 run "pip install -r requirements.txt"
 
 unzip rockyou.txt.zip into the directory
+
 run analyzer.py
