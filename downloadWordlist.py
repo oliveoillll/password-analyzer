@@ -1,4 +1,4 @@
-# also pip install nltk. this is the blocklist of common english words
+# also pip install nltk. this is just a setup script for english words + relevant words for rockyou
 
 import nltk
 nltk.download('words')
