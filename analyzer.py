@@ -112,6 +112,7 @@ def main():
     print(f"Found in blocklist: {blocklist_rate:.1f}%")
 
     print("\nTop 10 Password Templates:")
+    print("\n(U=uppercase, l=lowercase, d=digit, s=symbol, +=repeated chars)")
     print(top_templates)
 
     print("\nCracking Time Distribution:")
