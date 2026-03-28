@@ -74,7 +74,7 @@ def main():
     passwords = load_passwords('rockyou.txt', sample=10_000)
 
     print("loading wordlist")
-    wordlist = load_wordlist('/usr/share/dict/words')
+    wordlist = load_wordlist('wordlist.txt')
 
     print("extracting features")
     records = []
