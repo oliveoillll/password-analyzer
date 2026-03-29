@@ -61,10 +61,10 @@ compRate_and_distrib = {
 
 plt.figure()
 
-ax = pd.Series(compRate_and_distrib).plot(kind='bar')
+ax_cd = pd.Series(compRate_and_distrib).plot(kind='bar')
 
-for cd_bar in ax.patches:
-    ax.annotate(f'{cd_bar.get_height():.1f}%', 
+for cd_bar in ax_cd .patches:
+    ax_cd .annotate(f'{cd_bar.get_height():.1f}%', 
         xy=(cd_bar.get_x() + cd_bar.get_width() /2, cd_bar.get_height()), 
         ha='center', va='bottom') 
 plt.title("Calculate Compliance Rates and Distributions")
