@@ -55,6 +55,7 @@ def legacy_compliant(pw):
     has_upper = bool(re.search(r'[A-Z]', pw)) # must have at least one uppercase letter
     has_digit = bool(re.search(r'\d', pw)) # must have at least one digit
     has_symbol = bool(re.search(r'[^a-zA-Z0-9]', pw)) # must have at least one symbol
+    has_all = bool(re.search(r'[A-Z]', pw) and bool (re.search(r'\d',pw)) and bool (re.search(r'[^a-zA-Z0-9]',pw))) #has all three
     return len(pw) >= 8 and has_upper and has_digit and has_symbol # true if password is also >8 characters long
 
 def extract_features(pw, wordlist):
@@ -92,6 +93,7 @@ def main():
     print(f"Has digit: {df['password'].apply(lambda pw: bool(re.search(r'\d', pw))).mean() * 100:.1f}%")
     print(f"Has symbol: {df['password'].apply(lambda pw: bool(re.search(r'[^a-zA-Z0-9]', pw))).mean() * 100:.1f}%")
     print(f"8+ chars: {df['password'].apply(lambda pw: len(pw) >= 8).mean() * 100:.1f}%")
+    print(f"Has all three: {df['password'].apply(lambda pw: bool(re.search(r'[A-Z]', pw)) and bool (re.search(r'\d',pw)) and bool (re.search(r'[^a-z-A-Z0-9]',pw))).mean() * 100: .1f}%")
 
     # calculate compliance rates and distributions
     nist_compliance_rate = df['meets_nist_length'].mean() * 100 
