@@ -3,8 +3,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import re
-from entropy import get_charset as charset, entropy_analyzer as entropy
-
 
 df = pd.read_csv("results.csv")
 
@@ -39,7 +37,6 @@ plt.figure()
 
 ax =  pd.Series(char_breakdown).plot(kind='bar')
 
-#Add value on top of bars
 for bar in ax.patches:
     ax.annotate(f'{bar.get_height():.1f}%', 
         xy=(bar.get_x() + bar.get_width() /2, bar.get_height()), 
@@ -66,12 +63,10 @@ plt.figure()
 
 ax_cd = pd.Series(compRate_and_distrib).plot(kind='bar')
 
-#Add value on top of bars
 for cd_bar in ax_cd .patches:
     ax_cd .annotate(f'{cd_bar.get_height():.1f}%', 
         xy=(cd_bar.get_x() + cd_bar.get_width() /2, cd_bar.get_height()), 
         ha='center', va='bottom') 
-
 plt.title("Calculate Compliance Rates and Distributions")
 plt.xlabel("Type")
 plt.ylabel("% Percentage")
@@ -81,22 +76,3 @@ plt.savefig("compliance_and_distributions.png")
 
 plt.show()
 
-#Histogram for entropy
-df = entropy(df)
-plt.figure(figsize=(12, 6))
-
-n, bins, values = plt.hist(df['entropy'], bins=30, color='steelblue', edgecolor='black')
-
-#Add value on top of bars
-for value in values:
-    height = value.get_height()
-    plt.text(value.get_x() + value.get_width() /2., height,
-    f'{int(height)}', ha='center', va='bottom', fontsize=8)
-
-ax = plt.hist(df['entropy'], bins=30, color='steelblue', edgecolor='black')
-plt.title("Password Entropy Distribution")
-plt.xlabel("Entropy (bits)")
-plt.ylabel("Number of Passwords")
-plt.tight_layout()
-plt.savefig("entropy_distribution.png")
-plt.show()
