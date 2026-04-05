@@ -1,5 +1,6 @@
 import re
 from collections import Counter
+from entropy import entropy_analyzer
 import pandas as pd
 
 # load passwords
@@ -130,6 +131,20 @@ def main():
 
     df.to_csv('results.csv', index=False)
     print("\nFull results saved to results.csv")
+
+    #Entropy analyzer
+    df = entropy_analyzer(df)
+    print("Entropy Distribution:")
+    print(df['entropy'].value_counts(normalize=True) * 100)
+
+    top_tier = df.nlargest(10, 'entropy')
+    print("\nThe strongest passwords found in the wordlist:")
+    print(top_tier[['password', 'entropy', 'entropy_category']])
+
+    lowest_tier = df.nsmallest(10, 'entropy')
+    print("\nThe weakest passwords found in the wordlist:")
+    print(lowest_tier[['password', 'entropy', 'entropy_category']])
+
 
 if __name__ == '__main__':
     main()
