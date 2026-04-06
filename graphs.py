@@ -6,7 +6,9 @@ import re
 from entropy import get_charset as charset, entropy_analyzer as entropy
 
 
-df = pd.read_csv("results.csv")
+df = pd.read_csv('results.csv')
+df = df.dropna(subset=['password'])
+df['password'] = df['password'].astype(str)
 
 #Bar graph for crack time
 plt.figure()

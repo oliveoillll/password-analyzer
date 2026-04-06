@@ -16,6 +16,25 @@ def load_passwords(filepath, sample=None):
                 continue 
     return passwords[:sample] if sample else passwords # return all passwords if sample is None
 
+def is_valid_password(pw):
+    if len(pw) > 64:
+        return False
+    if 'http' in pw.lower().replace(' ', ''):  # catches obfuscated URLs like 'h ttp'
+        return False
+    if '<' in pw or '>' in pw:
+        return False
+    if '&#' in pw:  # HTML character entities
+        return False
+    if '@' in pw and '.' in pw:
+        return False
+    if pw.count(' ') > 3:
+        return False
+    if '%' in pw and len(pw) > 20:
+        return False
+    if 'javascript' in pw.lower():
+        return False
+    return True
+
 # load wordlist
 def load_wordlist(filepath):
     with open(filepath, 'r', encoding='utf-8', errors='ignore') as f: # ignore decoding errors in wordlist
@@ -46,11 +65,16 @@ def get_character_set_size(pw):
     return size if size > 0 else 26
 
 def estimate_crack_time(pw):
+    if not pw or len(pw) == 0:
+        return float('inf')
     R = get_character_set_size(pw)
     L = len(pw)
-    combinations = R ** L # total possible combinations
-    seconds = combinations / (2 * CRACKING_SPEED) # divide by 2 for average case
-    return seconds
+    try:
+        combinations = R ** L
+        seconds = combinations / (2 * CRACKING_SPEED)
+        return min(seconds, 1e300)
+    except OverflowError:
+        return float('inf')
 
 def legacy_compliant(pw):
     has_upper = bool(re.search(r'[A-Z]', pw)) # must have at least one uppercase letter
@@ -72,18 +96,20 @@ def extract_features(pw, wordlist):
 
 def main():
     print("loading passwords")
-    passwords = load_passwords('rockyou.txt', sample=10_000)
+    passwords = load_passwords('rockyou.txt', sample=None)
+    passwords = [pw for pw in passwords if is_valid_password(pw)]
 
     print("loading wordlist")
     wordlist = load_wordlist('wordlist.txt')
 
-    print("extracting features")
+    print("extracting features") 
     records = []
     for pw in passwords:
         records.append(extract_features(pw, wordlist))
 
     df = pd.DataFrame(records) # dataframe for aggregating and analysis of results
-
+    df = df[df['password'].apply(is_valid_password)]  # filter corrupted entries from dataframe
+    
     print("aggregating results")
 
     print("\nCharacter Class Breakdown:")
@@ -103,6 +129,8 @@ def main():
     top_templates = df['template'].value_counts().head(10) # most common templates, e.g. 'Ul+d' for 'Password1'
 
     def classify_crack_time(seconds):
+        if seconds is None or seconds == float('inf'):
+            return 'over 24 hours'
         if seconds < 60:
             return 'under 1 minute'
         elif seconds < 3600:
@@ -136,7 +164,7 @@ def main():
     print("Entropy Distribution:")
     print(df['entropy'].value_counts(normalize=True) * 100)
 
-    top_tier = df.nlargest(10, 'entropy')
+    top_tier = df.nlargest(12, 'entropy').tail(10) # top 2 entries are corrupted
     print("\nThe strongest passwords found in the wordlist:")
     print(top_tier[['password', 'entropy', 'entropy_category']])
 
