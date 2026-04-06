@@ -41,7 +41,7 @@ def load_wordlist(filepath):
         return set(word.strip().lower() for word in f) # load wordlist into a set for O(1) lookups
 
 # templating
-CRACKING_SPEED = 60_000_000_000  # conservative MD5 benchmark based on Hashcat performance for an RTX 4090
+CRACKING_SPEED = 60_000_000_000  # conservative MD5 benchmark based on Hashcat performance for an RTX 4090 (actual of 68.9 billion)
 
 def get_template(pw):
     template = ''
