@@ -32,20 +32,20 @@ This analysis maps the observed vulnerabilities to MITRE ATT&CK Technique T1110 
 
    ```bash
 
-   git clone [https://github.com/oliveoillll/password-analyzer.git](https://github.com/oliveoillll/password-analyzer.git)
+   git clone https://github.com/oliveoillll/password-analyzer.git
 
    cd password-analyzer
 
 2. **Install dependencies:**
 
 ```bash
-  pip install -r requirements.txt
+   pip install -r requirements.txt
 ```
 
 3. **Run the analysis:** 
 
 ```bash
-  unzip rockyou.txt.zip into the directory
+   unzip rockyou.txt.zip into the directory
 
-  run analyzer.py
+   run analyzer.py
 ```
