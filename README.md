@@ -43,6 +43,7 @@ This analysis maps the observed vulnerabilities to MITRE ATT&CK Technique T1110 
 ```
 
 3. **Run the analysis:** 
+
 Unzip rockyou.txt.zip into the directory:
   Using Linux or Mac:
 ```bash
