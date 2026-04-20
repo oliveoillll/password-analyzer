@@ -38,7 +38,9 @@ This analysis maps the observed vulnerabilities to MITRE ATT&CK Technique T1110 
 
 2. **Install dependencies:**
 
-```pip install -r requirements.txt```
+```bash
+  pip install -r requirements.txt
+```
 
 3. **Run the analysis:** 
 
