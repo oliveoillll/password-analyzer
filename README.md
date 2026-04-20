@@ -42,8 +42,8 @@ This analysis maps the observed vulnerabilities to MITRE ATT&CK Technique T1110 
 
 3. **Run the analysis:** 
 
-```
-unzip rockyou.txt.zip into the directory
+```bash
+  unzip rockyou.txt.zip into the directory
 
-run analyzer.py
+  run analyzer.py
 ```
